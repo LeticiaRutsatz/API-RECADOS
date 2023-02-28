@@ -14,22 +14,27 @@ export class UserController {
       return response.status(200).json({
         message: "Usuario Adicionado",
         data: newUser.handleProperties(),
+        success: true,
       });
     } catch (error) {
       return response.status(400).json({
         message: error,
+        success: false,
       });
     }
   }
 
   getUsers(request: Request, response: Response) {
     try {
-      return response
-        .status(201)
-        .json({ message: "Lista de Usuários", users: listUsers });
+      return response.status(201).json({
+        message: "Lista de Usuários",
+        data: listUsers,
+        success: true,
+      });
     } catch (error) {
       return response.status(400).send({
         message: error,
+        success: false,
       });
     }
   }
@@ -40,12 +45,15 @@ export class UserController {
 
       const user = listUsers.find((user) => user.id === id) as User;
 
-      return response
-        .status(201)
-        .json({ message: "Usuário Filtrado", user: user.handleProperties() });
+      return response.status(201).json({
+        message: "Usuário Filtrado",
+        data: user.handleProperties(),
+        success: true,
+      });
     } catch (error) {
       return response.status(400).json({
         message: error,
+        success: false,
       });
     }
   }

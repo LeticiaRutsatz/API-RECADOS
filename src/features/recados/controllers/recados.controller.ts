@@ -16,10 +16,12 @@ export class RecadosController {
       return response.status(200).json({
         message: "Recado adicionado com sucesso",
         data: newRecado.handleProperties(),
+        success: true,
       });
     } catch (error) {
       return response.status(400).json({
         message: error,
+        success: false,
       });
     }
   }
@@ -33,10 +35,12 @@ export class RecadosController {
       return response.status(200).json({
         message: `Lista de recados de ${listUsers[userIndex].name}`,
         data: listUsers[userIndex].recados,
+        success: true,
       });
     } catch (error) {
       return response.status(400).json({
         message: error,
+        success: false,
       });
     }
   }
@@ -63,10 +67,12 @@ export class RecadosController {
       return response.status(200).json({
         message: `Recado filtrado`,
         data: recadoFiltrado.map((recado) => recado.handleProperties()),
+        success: true,
       });
     } catch (error) {
       return response.status(400).json({
         message: error,
+        success: false,
       });
     }
   }
@@ -101,10 +107,12 @@ export class RecadosController {
       return response.status(200).send({
         message: `Recado atualizado`,
         data: listUsers[userIndex].recados[recadoIndex].handleProperties(),
+        success: true,
       });
     } catch (error) {
       return response.status(400).send({
         message: error,
+        success: false,
       });
     }
   }
@@ -123,10 +131,12 @@ export class RecadosController {
       return response.status(200).send({
         message: `Recado deletado`,
         data: listUsers[userIndex].recados,
+        success: true,
       });
     } catch (error) {
       return response.status(400).send({
         message: error,
+        success: false,
       });
     }
   }

@@ -28,7 +28,7 @@ export class UserController {
     try {
       return response.status(201).json({
         message: "Lista de Usuários",
-        data: listUsers,
+        data: listUsers.map((user) => user.handleProperties()),
         success: true,
       });
     } catch (error) {

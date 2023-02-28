@@ -34,7 +34,9 @@ export class RecadosController {
 
       return response.status(200).json({
         message: `Lista de recados de ${listUsers[userIndex].name}`,
-        data: listUsers[userIndex].recados,
+        data: listUsers[userIndex].recados.map((recado) =>
+          recado.handleProperties()
+        ),
         success: true,
       });
     } catch (error) {
@@ -130,7 +132,9 @@ export class RecadosController {
 
       return response.status(200).send({
         message: `Recado deletado`,
-        data: listUsers[userIndex].recados,
+        data: listUsers[userIndex].recados.map((recado) =>
+          recado.handleProperties()
+        ),
         success: true,
       });
     } catch (error) {

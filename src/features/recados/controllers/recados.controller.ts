@@ -68,7 +68,7 @@ export class RecadosController {
 
       return response.status(200).json({
         message: `Recado filtrado`,
-        data: recadoFiltrado.map((recado) => recado.handleProperties()),
+        data: recadoFiltrado,
         success: true,
       });
     } catch (error) {

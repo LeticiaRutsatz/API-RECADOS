@@ -35,6 +35,7 @@ export class User {
       id: this.id,
       name: this.name,
       email: this.email,
+      password: this.password,
       recados: this.recados,
     };
   }

@@ -15,7 +15,9 @@ export const validationUserExists = (
   const usuario = listUsers.some((user) => user.id === id);
 
   if (!usuario) {
-    return response.status(404).json({ message: "Usuário inexistente!" });
+    return response
+      .status(404)
+      .json({ message: "Usuário inexistente!", success: false });
   }
 
   next();

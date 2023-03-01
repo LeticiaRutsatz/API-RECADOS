@@ -49,26 +49,40 @@ export class RecadosController {
 
   getRecadoByUserAndById(request: Request, response: Response) {
     try {
-      const { id, idRecado } = request.params;
-      const { description } = request.query;
+      const { id } = request.params;
+      const { description, idRecado } = request.body;
 
       const userIndex = listUsers.findIndex((user) => user.id === id);
 
       const recadoFiltrado = listUsers[userIndex].recados.filter((recado) => {
-        if (idRecado || description) {
-          return recado.id === idRecado || recado.description == description;
+        if (description || idRecado) {
+          return (
+            recado.description.includes(description) || recado.id == idRecado
+          );
         }
 
         if (idRecado && description) {
-          return recado.id === idRecado && recado.description == description;
+          return (
+            recado.id == idRecado && recado.description.includes(description)
+          );
         }
 
-        return true;
+        return false;
       });
 
-      return response.status(200).json({
-        message: `Recado filtrado`,
-        data: recadoFiltrado,
+      if (recadoFiltrado.length === 0) {
+        return response.status(404).json({
+          message: "Recado não encontrado!",
+          data: listUsers[userIndex].recados.map((recado) =>
+            recado.handleProperties()
+          ),
+          success: false,
+        });
+      }
+
+      return response.status(201).json({
+        message: "Recado Filtrado",
+        data: recadoFiltrado.map((recado) => recado.handleProperties()),
         success: true,
       });
     } catch (error) {

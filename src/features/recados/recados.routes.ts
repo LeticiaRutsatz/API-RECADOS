@@ -23,9 +23,8 @@ const recadosRoutes = (router: Router) => {
 
   //get by id
   router.get(
-    "/users/:id/recados/:idRecado",
+    "/users/:id/recados/filtro",
     validationUserExists,
-    validationRecadoExist,
     recadosController.getRecadoByUserAndById
   );
 

@@ -28,7 +28,11 @@ export class UserController {
     try {
       return response.status(201).json({
         message: "Lista de Usuários",
-        data: listUsers.map((user) => user.handleProperties()),
+        data: listUsers.map((user) =>
+          user
+            .handleProperties()
+            .recados.map((recado) => recado.handleProperties())
+        ),
         success: true,
       });
     } catch (error) {

@@ -11,7 +11,9 @@ export const validationEmailExists = (
   const emailExist = listUsers.some((user) => user.email === email);
 
   if (emailExist) {
-    return response.status(400).json({ message: "E-mail já cadastrado!" });
+    return response
+      .status(400)
+      .json({ message: "E-mail já cadastrado!", success: false });
   }
 
   next();

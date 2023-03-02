@@ -17,7 +17,9 @@ export const validationRecadoExist = (
     );
 
     if (!recadoFiltrado) {
-      return response.status(404).send({ message: "Recado não encontrado!" });
+      return response
+        .status(404)
+        .send({ message: "Recado não encontrado!", success: false });
     }
   }
 

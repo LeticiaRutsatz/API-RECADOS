@@ -10,7 +10,7 @@ export const validationRecadoData = (
   if (!description && !detail && !arquivado) {
     return response
       .status(400)
-      .json({ message: "Formato de dados inválidos!" });
+      .json({ message: "Formato de dados inválidos!", success: false });
   }
 
   return next();

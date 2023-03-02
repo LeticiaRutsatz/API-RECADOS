@@ -14,7 +14,9 @@ export const validationData = (
   }
 
   if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)) {
-    return response.status(400).json({ message: "Email inválido!" });
+    return response
+      .status(400)
+      .json({ message: "Email inválido!", success: false });
   }
 
   return next();

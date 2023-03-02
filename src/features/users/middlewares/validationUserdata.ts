@@ -10,7 +10,7 @@ export const validationData = (
   if (!name || !email || !password) {
     return response
       .status(400)
-      .json({ message: "Formato de dados inválidos!" });
+      .json({ message: "Formato de dados inválidos!", success: false });
   }
 
   if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)) {

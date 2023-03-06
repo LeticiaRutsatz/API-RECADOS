@@ -12,7 +12,7 @@ export class UserController {
       console.log(listUsers);
 
       return response.status(200).json({
-        message: "Usuario Adicionado",
+        message: "Usuario criado com sucesso!",
         data: newUser.handleProperties(),
         success: true,
       });
@@ -46,10 +46,8 @@ export class UserController {
       const user = listUsers.find((user) => user.id === id) as User;
 
       return response.status(201).json({
-        message: "Usuário Filtrado",
-        data: user
-          .handleProperties()
-          .recados.map((recado) => recado.handleProperties()),
+        message: "Usuário Filtrado!",
+        data: user.handleProperties(),
         success: true,
       });
     } catch (error) {

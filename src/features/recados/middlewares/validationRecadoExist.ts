@@ -12,7 +12,7 @@ export const validationRecadoExist = (
   const userIndex = listUsers.findIndex((user) => user.id === id);
 
   if (idRecado) {
-    const recadoFiltrado = listUsers[userIndex].recados.some(
+    const recadoFiltrado = listUsers[userIndex].errands.some(
       (recado) => recado.id === idRecado
     );
 

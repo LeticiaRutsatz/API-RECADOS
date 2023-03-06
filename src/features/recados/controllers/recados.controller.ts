@@ -1,21 +1,21 @@
 import { Request, Response } from "express";
 import { listUsers } from "../../../database";
-import { Recado } from "../../../models/recado.model";
+import { Errand } from "../../../models/errand.model";
 
 export class RecadosController {
-  createRecado(request: Request, response: Response) {
+  createErrand(request: Request, response: Response) {
     try {
-      const { description, detail } = request.body;
+      const { name, detail } = request.body;
       const { id } = request.params;
 
       const userIndex = listUsers.findIndex((user) => user.id === id);
 
-      const newRecado = new Recado({ description, detail });
-      listUsers[userIndex].recados.push(newRecado);
+      const newErrand = new Errand({ name, detail });
+      listUsers[userIndex].errands.push(newErrand);
 
       return response.status(200).json({
-        message: "Recado adicionado com sucesso",
-        data: newRecado.handleProperties(),
+        message: "Recado adicionado com sucesso!",
+        data: newErrand.handleProperties(),
         success: true,
       });
     } catch (error) {
@@ -26,7 +26,7 @@ export class RecadosController {
     }
   }
 
-  getRecadoByUser(request: Request, response: Response) {
+  geterrandByUser(request: Request, response: Response) {
     try {
       const { id } = request.params;
 
@@ -34,7 +34,7 @@ export class RecadosController {
 
       return response.status(200).json({
         message: `Lista de recados de ${listUsers[userIndex].name}`,
-        data: listUsers[userIndex].recados.map((recado) =>
+        data: listUsers[userIndex].errands.map((recado) =>
           recado.handleProperties()
         ),
         success: true,
@@ -47,33 +47,25 @@ export class RecadosController {
     }
   }
 
-  getRecadoByUserAndById(request: Request, response: Response) {
+  getErrandByUserAndById(request: Request, response: Response) {
     try {
       const { id } = request.params;
-      const { description, idRecado } = request.body;
+      const { name, idRecado } = request.query;
 
       const userIndex = listUsers.findIndex((user) => user.id === id);
 
-      const recadoFiltrado = listUsers[userIndex].recados.filter((recado) => {
-        if (description || idRecado) {
-          return (
-            recado.description.includes(description) || recado.id == idRecado
-          );
-        }
-
-        if (idRecado && description) {
-          return (
-            recado.id == idRecado && recado.description.includes(description)
-          );
+      const filterErrand = listUsers[userIndex].errands.filter((recado) => {
+        if (idRecado && name) {
+          return recado.id == idRecado && recado.name === name;
         }
 
         return false;
       });
 
-      if (recadoFiltrado.length === 0) {
+      if (filterErrand.length === 0) {
         return response.status(404).json({
           message: "Recado não encontrado!",
-          data: listUsers[userIndex].recados.map((recado) =>
+          data: listUsers[userIndex].errands.map((recado) =>
             recado.handleProperties()
           ),
           success: false,
@@ -81,8 +73,8 @@ export class RecadosController {
       }
 
       return response.status(201).json({
-        message: "Recado Filtrado",
-        data: recadoFiltrado.map((recado) => recado.handleProperties()),
+        message: "Recado Filtrado com sucesso!",
+        data: filterErrand.map((recado) => recado.handleProperties()),
         success: true,
       });
     } catch (error) {
@@ -96,33 +88,36 @@ export class RecadosController {
   updateRecado(request: Request, response: Response) {
     try {
       const { id, idRecado } = request.params;
-      const { description, detail } = request.body;
-      let { arquivado } = request.body;
+      const { name, detail } = request.body;
+      let { filed } = request.body;
 
-      if (arquivado) {
-        if (arquivado == "true" || arquivado == "True") {
-          arquivado = true;
+      if (filed) {
+        if (filed == "true" || filed == "True") {
+          filed = true;
         }
 
-        if (arquivado == "false" || arquivado == "False") {
-          arquivado = false;
+        if (filed == "false" || filed == "False") {
+          filed = false;
         }
       }
 
       const userIndex = listUsers.findIndex((user) => user.id === id);
-      const recadoIndex = listUsers[userIndex].recados.findIndex(
+      const recadoIndex = listUsers[userIndex].errands.findIndex(
         (recado) => recado.id === idRecado
       );
 
-      const recadoATT = listUsers[userIndex].recados.forEach((recado) => {
-        recado.description = description ?? recado.description;
-        recado.detail = detail ?? recado.detail;
-        recado.arquivado = arquivado ?? recado.arquivado;
-      });
+      listUsers[userIndex].errands[recadoIndex].name =
+        name ?? listUsers[userIndex].errands[recadoIndex].name;
+      listUsers[userIndex].errands[recadoIndex].detail =
+        detail ?? listUsers[userIndex].errands[recadoIndex].detail;
+      listUsers[userIndex].errands[recadoIndex].filed =
+        filed ?? listUsers[userIndex].errands[recadoIndex].filed;
+      listUsers[userIndex].errands[recadoIndex].changeIcon =
+        listUsers[userIndex].errands[recadoIndex].changeIcon;
 
       return response.status(200).send({
-        message: `Recado atualizado`,
-        data: listUsers[userIndex].recados[recadoIndex].handleProperties(),
+        message: `Recado atualizado com sucesso!`,
+        data: listUsers[userIndex].errands[recadoIndex].handleProperties(),
         success: true,
       });
     } catch (error) {
@@ -138,15 +133,15 @@ export class RecadosController {
       const { id, idRecado } = request.params;
 
       const userIndex = listUsers.findIndex((user) => user.id === id);
-      const recadoIndex = listUsers[userIndex].recados.findIndex(
+      const recadoIndex = listUsers[userIndex].errands.findIndex(
         (recado) => recado.id === idRecado
       );
 
-      listUsers[recadoIndex].recados.splice(recadoIndex, 1);
+      listUsers[userIndex].errands.splice(recadoIndex, 1);
 
       return response.status(200).send({
-        message: `Recado deletado`,
-        data: listUsers[userIndex].recados.map((recado) =>
+        message: `Recado deletado!`,
+        data: listUsers[userIndex].errands.map((recado) =>
           recado.handleProperties()
         ),
         success: true,

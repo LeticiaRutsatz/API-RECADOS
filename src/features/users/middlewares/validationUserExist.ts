@@ -17,7 +17,10 @@ export const validationUserExists = (
   if (!usuario) {
     return response
       .status(404)
-      .json({ message: "Usuário inexistente!", success: false });
+      .json({
+        message: "Usuário não encontrado, tente novamente!",
+        success: false,
+      });
   }
 
   next();

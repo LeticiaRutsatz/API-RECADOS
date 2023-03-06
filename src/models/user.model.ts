@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { Recado } from "./recado.model";
+import { Errand } from "./errand.model";
 
 export interface UserDTO {
   name: string;
@@ -12,14 +12,14 @@ export class User {
   public name: string;
   public email: string;
   private _password: string;
-  public recados: Recado[];
+  public errands: Errand[];
 
   constructor(paramns: UserDTO) {
     this._id = uuid();
     this.name = paramns.name;
     this.email = paramns.email;
     this._password = paramns.password;
-    this.recados = [];
+    this.errands = [];
   }
 
   get id() {
@@ -36,7 +36,7 @@ export class User {
       name: this.name,
       email: this.email,
       password: this.password,
-      recados: this.recados,
+      errands: this.errands,
     };
   }
 }

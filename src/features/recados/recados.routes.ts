@@ -11,21 +11,21 @@ const recadosRoutes = (router: Router) => {
     "/users/:id/recados",
     validationUserExists,
     validationRecadoData,
-    recadosController.createRecado
+    recadosController.createErrand
   );
 
   //get by user
   router.get(
     "/users/:id/recados",
     validationUserExists,
-    recadosController.getRecadoByUser
+    recadosController.geterrandByUser
   );
 
   //get by id
   router.get(
     "/users/:id/recados/filtro",
     validationUserExists,
-    recadosController.getRecadoByUserAndById
+    recadosController.getErrandByUserAndById
   );
 
   //put editar

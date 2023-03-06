@@ -5,9 +5,9 @@ export const validationRecadoData = (
   response: Response,
   next: NextFunction
 ) => {
-  let { description, detail, arquivado } = request.body;
+  let { name, detail, filed } = request.body;
 
-  if (!description && !detail && !arquivado) {
+  if (!name && !detail && !filed) {
     return response
       .status(400)
       .json({ message: "Formato de dados inválidos!", success: false });

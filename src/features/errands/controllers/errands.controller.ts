@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { listUsers } from "../../../database";
 import { Errand } from "../../../models/errand.model";
 
-export class RecadosController {
+export class ErrandsController {
   createErrand(request: Request, response: Response) {
     try {
       const { name, detail } = request.body;
@@ -29,8 +29,21 @@ export class RecadosController {
   geterrandByUser(request: Request, response: Response) {
     try {
       const { id } = request.params;
+      const { name, idRecado } = request.query;
 
       const userIndex = listUsers.findIndex((user) => user.id === id);
+
+      if (name && idRecado) {
+        const filterErrand = listUsers[userIndex].errands.filter((recado) => {
+          return recado.id == idRecado && recado.name === name;
+        });
+
+        return response.status(201).json({
+          message: "Recado Filtrado com sucesso!",
+          data: filterErrand.map((recado) => recado.handleProperties()),
+          success: true,
+        });
+      }
 
       return response.status(200).json({
         message: `Lista de recados de ${listUsers[userIndex].name}`,
@@ -47,43 +60,29 @@ export class RecadosController {
     }
   }
 
-  getErrandByUserAndById(request: Request, response: Response) {
-    try {
-      const { id } = request.params;
-      const { name, idRecado } = request.query;
+  // getErrandByUserAndById(request: Request, response: Response) {
+  //   try {
+  //     const { id } = request.params;
+  //     const { name, idRecado } = request.query;
 
-      const userIndex = listUsers.findIndex((user) => user.id === id);
+  //     const userIndex = listUsers.findIndex((user) => user.id === id);
 
-      const filterErrand = listUsers[userIndex].errands.filter((recado) => {
-        if (idRecado && name) {
-          return recado.id == idRecado && recado.name === name;
-        }
+  //     const filterErrand = listUsers[userIndex].errands.filter((recado) => {
+  //       return recado.id == idRecado && recado.name === name;
+  //     });
 
-        return false;
-      });
-
-      if (filterErrand.length === 0) {
-        return response.status(404).json({
-          message: "Recado não encontrado!",
-          data: listUsers[userIndex].errands.map((recado) =>
-            recado.handleProperties()
-          ),
-          success: false,
-        });
-      }
-
-      return response.status(201).json({
-        message: "Recado Filtrado com sucesso!",
-        data: filterErrand.map((recado) => recado.handleProperties()),
-        success: true,
-      });
-    } catch (error) {
-      return response.status(400).json({
-        message: error,
-        success: false,
-      });
-    }
-  }
+  //     return response.status(201).json({
+  //       message: "Recado Filtrado com sucesso!",
+  //       data: filterErrand.map((recado) => recado.handleProperties()),
+  //       success: true,
+  //     });
+  //   } catch (error) {
+  //     return response.status(400).json({
+  //       message: error,
+  //       success: false,
+  //     });
+  //   }
+  // }
 
   updateRecado(request: Request, response: Response) {
     try {

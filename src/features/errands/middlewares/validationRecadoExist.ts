@@ -7,21 +7,23 @@ export const validationRecadoExist = (
   next: NextFunction
 ) => {
   const { id } = request.params;
-  const { idRecado } = request.body;
+  const { idRecado, name } = request.query;
 
-  const userIndex = listUsers.findIndex((user) => user.id === id);
+  if (idRecado && name) {
+    const userIndex = listUsers.findIndex((user) => user.id === id);
 
-  if (idRecado) {
     const recadoFiltrado = listUsers[userIndex].errands.some(
-      (recado) => recado.id === idRecado
+      (recado) => recado.id === idRecado && recado.name === name
     );
 
     if (!recadoFiltrado) {
-      return response
-        .status(404)
-        .send({ message: "Recado não encontrado!", success: false });
+      return response.status(404).send({
+        message: "Recado não encontrado!",
+        success: false,
+      });
     }
-  }
 
+    return next();
+  }
   return next();
 };

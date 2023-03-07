@@ -15,12 +15,11 @@ export const validationUserExists = (
   const usuario = listUsers.some((user) => user.id === id);
 
   if (!usuario) {
-    return response
-      .status(404)
-      .json({
-        message: "Usuário não encontrado, tente novamente!",
-        success: false,
-      });
+    return response.status(404).json({
+      data: [],
+      message: "Usuário não encontrado, tente novamente!",
+      success: false,
+    });
   }
 
   next();

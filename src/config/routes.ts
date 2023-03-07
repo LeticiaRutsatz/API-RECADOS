@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from "express";
-import { recadosRoutes } from "../features/recados/recados.routes";
+import { errandsRoutes } from "../features/errands/errands.routes";
 import { userRoutes } from "../features/users/users.routes";
 
 const routesApp = (app: Application) => {
@@ -11,7 +11,7 @@ const routesApp = (app: Application) => {
   );
 
   userRoutes(router);
-  recadosRoutes(router);
+  errandsRoutes(router);
 };
 
 export { routesApp };

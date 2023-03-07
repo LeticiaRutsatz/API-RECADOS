@@ -1,48 +1,42 @@
 import { Router } from "express";
 import { validationUserExists } from "../users/middlewares/validationUserExist";
-import { RecadosController } from "./controllers/recados.controller";
-import { validationRecadoData } from "./middlewares/validationRecadoData";
+import { ErrandsController } from "./controllers/errands.controller";
+import { validationRecadoData } from "./middlewares/validationErrandData";
 import { validationRecadoExist } from "./middlewares/validationRecadoExist";
 
-const recadosRoutes = (router: Router) => {
-  const recadosController = new RecadosController();
+const errandsRoutes = (router: Router) => {
+  const errandsController = new ErrandsController();
   // POST
   router.post(
     "/users/:id/recados",
     validationUserExists,
     validationRecadoData,
-    recadosController.createErrand
+    errandsController.createErrand
   );
 
-  //get by user
+  //GET
   router.get(
     "/users/:id/recados",
     validationUserExists,
-    recadosController.geterrandByUser
+    validationRecadoExist,
+    errandsController.geterrandByUser
   );
 
-  //get by id
-  router.get(
-    "/users/:id/recados/filtro",
-    validationUserExists,
-    recadosController.getErrandByUserAndById
-  );
-
-  //put editar
+  //PUT
   router.put(
     "/users/:id/recados/:idRecado",
     validationUserExists,
     validationRecadoExist,
     validationRecadoData,
-    recadosController.updateRecado
+    errandsController.updateRecado
   );
 
-  //deletar
+  //DELETE
   router.delete(
     "/users/:id/recados/:idRecado",
     validationUserExists,
     validationRecadoExist,
-    recadosController.deleteRecado
+    errandsController.deleteRecado
   );
 };
-export { recadosRoutes };
+export { errandsRoutes };
